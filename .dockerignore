@@ -1,0 +1,15 @@
+.git
+.github
+.idea
+.vscode
+/vendor
+/node_modules
+/public/build
+/public/hot
+.env
+/storage/logs/*
+.phpunit.result.cache
+/.phpunit.cache
+database/database.sqlite
+npm-debug.log
+yarn-error.log
