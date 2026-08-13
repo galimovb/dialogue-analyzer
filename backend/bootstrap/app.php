@@ -1,8 +1,10 @@
 <?php
 
+use App\Support\ApiExceptionHandler;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -16,7 +18,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->statefulApi();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
-        );
+        // Любое исключение в API отдаётся единым конвертом { success:false, error, errorMessage }.
+        $exceptions->render(function (Throwable $e, Request $request): ?JsonResponse {
+            if ($request->is('api/*') || $request->expectsJson()) {
+                return ApiExceptionHandler::render($e);
+            }
+
+            return null;
+        });
     })->create();
