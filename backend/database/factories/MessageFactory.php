@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Message;
+use App\Modules\Dialogues\Models\Message;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

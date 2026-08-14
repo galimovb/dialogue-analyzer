@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Enums\DialogueOutcome;
-use App\Enums\UserRole;
-use App\Models\Dialogue;
-use App\Models\User;
+use App\Modules\Dialogues\Enums\DialogueOutcome;
+use App\Modules\Users\Enums\UserRole;
+use App\Modules\Dialogues\Models\Dialogue;
+use App\Modules\Users\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;

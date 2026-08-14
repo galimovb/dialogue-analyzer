@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DialogueController;
+use App\Modules\Auth\Controllers\AuthController;
+use App\Modules\Dialogues\Controllers\DialogueController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);

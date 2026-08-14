@@ -1,6 +1,6 @@
 <?php
 
-use App\Support\ApiExceptionHandler;
+use App\Modules\Shared\Exceptions\ApiExceptionHandler;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
