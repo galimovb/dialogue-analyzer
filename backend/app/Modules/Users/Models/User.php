@@ -3,6 +3,7 @@
 namespace App\Modules\Users\Models;
 
 use App\Modules\Dialogues\Models\Dialogue;
+use App\Modules\Dialogues\Models\Message;
 use App\Modules\Users\Enums\UserRole;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;

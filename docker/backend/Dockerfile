@@ -30,4 +30,4 @@ COPY --from=vendor /app .
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     && chown -R www-data:www-data storage bootstrap/cache
 
-CMD ["sh", "-c", "php artisan migrate --force && exec php-fpm"]
+CMD ["sh", "-c", "php artisan migrate --force --seed && exec php-fpm"]

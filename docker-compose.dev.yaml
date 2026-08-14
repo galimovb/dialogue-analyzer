@@ -21,9 +21,24 @@ services:
         working_dir: /var/www/html
         volumes:
             - ./backend:/var/www/html
-        command: sh -c "composer install && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"
+        command: sh -c "composer install && php artisan migrate --force --seed && php artisan serve --host=0.0.0.0 --port=8000"
         ports:
             - "8000:8000"
+        depends_on:
+            postgresql:
+                condition: service_healthy
+
+    worker:
+        build:
+            context: .
+            dockerfile: docker/backend/Dockerfile
+            target: dev
+        env_file: backend/.env
+        working_dir: /var/www/html
+        volumes:
+            - ./backend:/var/www/html
+        command: sh -c "until [ -f vendor/autoload.php ]; do sleep 2; done; php artisan queue:work --tries=1 --sleep=1"
+        restart: unless-stopped
         depends_on:
             postgresql:
                 condition: service_healthy
@@ -34,6 +49,8 @@ services:
             POSTGRES_DB: ${DB_DATABASE:-dialogue_analyzer}
             POSTGRES_USER: ${DB_USERNAME:-app}
             POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+        ports:
+            - "5432:5432"
         volumes:
             - pgdata-dev:/var/lib/postgresql/data
         healthcheck:

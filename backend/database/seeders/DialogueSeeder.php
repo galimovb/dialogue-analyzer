@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Modules\Analysis\Jobs\AnalyzeDialogueJob;
 use App\Modules\Dialogues\Enums\DialogueOutcome;
-use App\Modules\Users\Enums\UserRole;
 use App\Modules\Dialogues\Models\Dialogue;
+use App\Modules\Users\Enums\UserRole;
 use App\Modules\Users\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
@@ -23,6 +24,9 @@ class DialogueSeeder extends Seeder
 
         $this->seedScripted($managers->keyBy('email'), $clients->keyBy('email'));
         $this->seedGenerated($managers, $clients);
+
+        // Ставим анализ каждого диалога в очередь (обработает воркер).
+        Dialogue::query()->pluck('id')->each(fn (int $id) => AnalyzeDialogueJob::dispatch($id));
     }
 
     /**

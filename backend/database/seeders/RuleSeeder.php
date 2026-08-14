@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Modules\Analysis\Services\RuleRegistry;
-use App\Modules\Analysis\Models\Rule;
+use App\Modules\Rules\Models\Rule;
+use App\Modules\Rules\Services\RuleRegistry;
 use Illuminate\Database\Seeder;
 
 class RuleSeeder extends Seeder

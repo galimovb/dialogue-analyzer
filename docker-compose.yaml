@@ -23,6 +23,18 @@ services:
                 condition: service_healthy
         restart: unless-stopped
 
+    worker:
+        build:
+            context: .
+            dockerfile: docker/backend/Dockerfile
+            target: app
+        env_file: backend/.env
+        command: ["php", "artisan", "queue:work", "--tries=3", "--sleep=3", "--max-jobs=1000"]
+        depends_on:
+            postgresql:
+                condition: service_healthy
+        restart: unless-stopped
+
     postgresql:
         image: 'postgres:16-alpine'
         environment:

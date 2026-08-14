@@ -4,6 +4,7 @@ namespace App\Modules\Shared;
 
 use App\Modules\Shared\Enums\ErrorCode;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,13 +24,16 @@ class ApiResponse
     /**
      * Пагинированный ответ: { success: true, data: [...], pagination: {...} }
      *
+     * @template TValue of Model
+     *
+     * @param  LengthAwarePaginator<int, TValue>  $paginator
      * @param  class-string<JsonResource>  $resource
      */
     public static function paginated(LengthAwarePaginator $paginator, string $resource): JsonResponse
     {
         return response()->json([
             'success' => true,
-            'data' => $resource::collection($paginator->getCollection()),
+            'data' => $resource::collection($paginator->items()),
             'pagination' => [
                 'current_page' => $paginator->currentPage(),
                 'last_page' => $paginator->lastPage(),
